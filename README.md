@@ -1,28 +1,23 @@
 # break-fix
 
-These scripts will build a basic all in one VM running RDO Packstack. Purpose of these scripts to to give you a starting point to start creating "break/fix" scenerios for the team compitition.
+These scripts will build a basic all in one VM running RDO Packstack. Purpose of these scripts to to give you a starting point to start creating "break/fix" scenerios for the team competition.
 
-Requirements for your machine:
-1. Virtualbox
-2. Vagrant
-3. Ansible
+### Requirements for your machine:
+ 1. **Virtualbox** (`https://www.virtualbox.org/wiki/Downloads`)
+ 1. **Vagrant** (`https://www.vagrantup.com/downloads.html`)
+ 1. **Ansible** (`http://docs.ansible.com/ansible/intro_installation.html`)
+ 1. Resources to create the VM (6GB RAM, 2vcpu, 10GB disk)
  
-Virtualbox Install:
-https://www.virtualbox.org/wiki/Downloads
+### Deploying a Lab:
+ 1. Make sure all requirements are met above
+ 1. git clone http://github.com/rax-rpcr/break-fix
+ 1. cd break-fix
+ 1. run "vagrant up" (this may take 20+ minutes to complete)
+ 1. Log in via ssh "ssh root@127.0.0.1 -p 2222" with password "rpcr"
+ 1. Away you go!
 
-Vagrant Install:
-https://www.vagrantup.com/downloads.html
+### Cleaning up a lab when you are done:
+ 1. run "vagrant destroy" will delete the VM
 
-Ansible Install:
-http://docs.ansible.com/ansible/intro_installation.html
-or
-Install EPEL: http://fedoraproject.org/wiki/EPEL
-sudo yum install ansible
-
-Deploying a Lab:
-1. Make sure all requirements are met above
-2. git clone http://github.com/rax-rpcr/break-fix
-3. cd break-fix
-4. run "vagrant up"
-5. Log in via ssh "ssh root|stack@127.0.0.1 -p 2222"
-6. Away you go!
+### Adding a new breakfix exercise:
+ 1.
