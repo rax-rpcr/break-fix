@@ -9,6 +9,8 @@ Vagrant.configure(2) do |config|
   config.vm.box = "centos/7"
 
   config.vm.hostname = "BF1"
+  config.vm.define :BF1 do |t|
+  end
 
   config.vm.network :private_network, type: "dhcp"
   config.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
