@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
 
 # for reference | https://www.virtualbox.org/manual/ch08.html#idm3626
   config.vm.provider "virtualbox" do |v|
-#    v.customize ["modifyvm", :id, "--name", "BF1"]
+    v.customize ["modifyvm", :id, "--name", "BF1"]
     v.customize ["modifyvm", :id, "--cpus", "2"]
     v.customize ["modifyvm", :id, "--memory", "6144"]
   end
