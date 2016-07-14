@@ -1,0 +1,25 @@
+# Hints:
+#  Try running "keystone catalog" 
+#  Which services are required by that command?
+#  Are those services healthy?
+#
+# 
+#
+#
+#
+#
+# (the first 10 lines are the hint, so pad with empty lines)
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: breakfix
+    command: systemctl stop httpd
+
+  - name: Description
+    debug: 
+      msg: >
+        Users report that they are unable to use openstack at all.
+        If you need a hint, run 'head breaks/break001.yml'
+

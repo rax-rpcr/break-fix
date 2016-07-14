@@ -1,0 +1,14 @@
+#!/bin/bash
+
+BREAKDIR='./breaks'
+
+# If no breakfix was specified, select one at random
+if [[ -e "$1" ]] ; then 
+  BREAKTASKFILE="$1"
+else
+  BREAKTASKFILE="$(ls -1 $BREAKDIR/*.yml | sort -R | head -n 1)"
+fi
+
+echo $BREAKTASKFILE
+export BREAKTASKFILE
+vagrant up

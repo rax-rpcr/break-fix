@@ -1,0 +1,25 @@
+# In this case, nothing is broken
+# 
+# 
+# 
+#
+# 
+#
+#
+#
+#
+# (the first 10 lines are the hint, so pad with empty lines)
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: breakfix
+    command: touch /tmp/breakfix.txt
+
+  - name: Description
+    debug: 
+      msg: >
+        Nothing is actually broken!
+        If you need a hint, run 'head breaks/break000.yml'
+

@@ -26,4 +26,10 @@ Vagrant.configure(2) do |config|
 #    ansible.verbose = "vvv"
     ansible.playbook = "playbook.yml"
   end
+
+  config.vm.provision "ansible" do |ansible|
+#    ansible.verbose = "vvv"
+    ansible.playbook = ENV['BREAKTASKFILE']
+  end
+
 end
