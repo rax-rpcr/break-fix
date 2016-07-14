@@ -20,6 +20,12 @@
   - name: running packstack --allinone
     command: packstack --allinone
 
+  - name: disable default httpd vhost
+    command: mv /etc/httpd/conf.d/15-default.conf /etc/httpd/conf.d/15-default.conf.bak
+
+  - name: restart apache
+    service: name=httpd state=restarted
+
 #  - name: *** BROKEN **** add keystonerc to stack user *** BROKEN ***
 #    become: true
 #    command: cp -f /root/keystonerc_admin /home/stack && echo "source keystonerc_admin" >> /home/stack/.bashrc && chown stack:stack /home/stack/keystonerc_admin
