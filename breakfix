@@ -13,6 +13,7 @@ else
     BREAKFIXES[${ARR_INDEX}]=${AVAILABLE_BREAK}
     : $((ARR_INDEX++))
   done
+  [ "${ARR_INDEX}" -lt "2" ] && ARR_INDEX=2
   FILE_TO_CHOOSE=$((${RANDOM}%(${ARR_INDEX}-1)))
   BREAKTASKFILE=${BREAKFIXES[${FILE_TO_CHOOSE}]}
 fi
