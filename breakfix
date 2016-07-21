@@ -6,6 +6,7 @@ BREAKDIR='./breaks'
 if [[ -e "$1" ]] ; then 
   BREAKTASKFILE="$1"
 else
+  test
   BREAKTASKFILE="$(ls -1 $BREAKDIR/*.yml | sort -R | head -n 1)"
 fi
 
