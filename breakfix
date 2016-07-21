@@ -6,8 +6,15 @@ BREAKDIR='./breaks'
 if [[ -e "$1" ]] ; then 
   BREAKTASKFILE="$1"
 else
-  test
-  BREAKTASKFILE="$(ls -1 $BREAKDIR/*.yml | sort -R | head -n 1)"
+  # Choose random file
+  ARR_INDEX=0
+  for AVAILABLE_BREAK in $(ls ${BREAKDIR}/*yml)
+  do
+    BREAKFIXES[${ARR_INDEX}]=${AVAILABLE_BREAK}
+    : $((ARR_INDEX++))
+  done
+  FILE_TO_CHOOSE=$((RANDOM%${ARR_INDEX-1}))
+  BREAKTASKFILE=${BREAKFIXES[${FILE_TO_CHOOSE}]}
 fi
 
 echo $BREAKTASKFILE
