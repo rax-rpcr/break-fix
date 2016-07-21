@@ -6,6 +6,7 @@ Vagrant.require_version ">= 1.8"
 
 Vagrant.configure(2) do |config|
 
+  config.ssh.insert_key = false
   config.vm.box = "centos/7"
 
   config.vm.hostname = "BF1"
