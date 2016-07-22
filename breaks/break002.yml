@@ -15,8 +15,10 @@
   tasks:
 
   - name: breakfix
-    command: chcon -t gnome_home_t /usr/bin/neutron-*-agent
-    command: chcon -Rt pulseaudio_home_t /etc/neutron
+    command: "chcon {{ item }}"
+    with_items:
+    - -t gnome_home_t /usr/bin/neutron-*-agent
+    - -Rt pulseaudio_home_t /etc/neutron
 
   - name: Description
     debug:
