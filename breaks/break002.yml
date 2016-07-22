@@ -1,0 +1,27 @@
+# Hints:
+#  Are the neutron components running?
+#  Try to restart the services and notice
+#  if there's some permission that's missing.
+#  Could it be a security feature?
+# 
+#
+#
+#
+#
+# (the first 10 lines are the hint, so pad with empty lines)
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: breakfix
+    command: chcon {{ item }}
+    with_items:
+    - -t gnome_home_t /usr/bin/neutron-*-agent
+    - -Rt pulseaudio_home_t /etc/neutron
+
+  - name: Description
+    debug:
+      msg: >
+        Users report that they are unable to create networks on the system
+        If you need a hint, run 'head breaks/break002.yml'
