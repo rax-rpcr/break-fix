@@ -7,12 +7,13 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
 ### Requirements for your machine:
  1. **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
  1. **Virtualbox** ([https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads))
+ 2. **Libvirt** ([https://libvirt.org/])
  1. **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
  1. **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
  1. Resources to create the VM (6GB RAM, 2vcpu, 10GB disk)
  
 ### Deploying a Lab:
- 1. Make sure all requirements are met above
+ 1. Make sure all requirements are met above. Regarding the virtualization engine, both VirtualBox and libvirt are supported so you could choose whichever works best for you.
  1. git clone http://github.com/rax-rpcr/break-fix
  1. cd break-fix
  1. Create a randomly selected breakfix by running:
