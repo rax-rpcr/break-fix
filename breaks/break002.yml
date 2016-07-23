@@ -14,11 +14,11 @@
   become: true
   tasks:
 
-  - name: breakfix
-    command: "chcon {{ item }}"
-    with_items:
-    - -t gnome_home_t /usr/bin/neutron-*-agent
-    - -Rt pulseaudio_home_t /etc/neutron
+  - name: change SELinux context to the neutron agent files
+    command: chcon -t gnome_home_t /usr/bin/neutron-*-agent
+    
+  - name: change SELinux context to the neutron configuration files
+    command: chcon -Rt pulseaudio_home_t /etc/neutron
 
   - name: Description
     debug:
