@@ -5,9 +5,18 @@ These scripts will build a basic all in one VM running RDO Packstack. Purpose of
 The individual breakfix playbooks are in the `breaks` sub-directory.  The top few lines of each playbook contain a hint, if needed.  Looking past the first few lines before solving the problem will spoil the exercise and bring you bad openstack karma.
 
 ### Requirements for your machine:
- 1. **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
+
+### If you prefer to use VirtualBox for your virtual machine:
+
  1. **Virtualbox** ([https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads))
+
+### If you prefer to use libvirt for your virtual machine:
+
  2. **Libvirt** ([https://libvirt.org/])
+ 3. **Libvirt Vagrant Plugin** ([https://github.com/vagrant-libvirt/vagrant-libvirt])
+
+### Mandatory Software whichever you choose to use for your virtual machine:
+ 1. **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
  1. **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
  1. **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
  1. Resources to create the VM (6GB RAM, 2vcpu, 10GB disk)
