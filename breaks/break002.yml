@@ -15,10 +15,16 @@
   tasks:
 
   - name: change SELinux context to the neutron agent files
-    command: chcon -t gnome_home_t /usr/bin/neutron-*-agent
+    file: path=/usr/bin/neutron-{{ item }}-agent setype=gnome_home_t
+    with_items:
+      - dhcp 
+      - l3
+      - metadata
+      - metering
+      - openvswitch
     
   - name: change SELinux context to the neutron configuration files
-    command: chcon -Rt pulseaudio_home_t /etc/neutron
+    file: path=/etc/neutron setype=lvm_metadata_t recurse=yes
 
   - name: Description
     debug:
