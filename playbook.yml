@@ -26,6 +26,12 @@
   - name: restart apache
     service: name=httpd state=restarted
 
-#  - name: *** BROKEN **** add keystonerc to stack user *** BROKEN ***
-#    become: true
-#    command: cp -f /root/keystonerc_admin /home/stack && echo "source keystonerc_admin" >> /home/stack/.bashrc && chown stack:stack /home/stack/keystonerc_admin
+  - name: add keystonerc to stack user
+    command: cp /root/keystonerc_admin /home/stack/keystonerc_admin
+
+  - name: set the right permissions to the keystonerc_admin file
+    file: path=/home/stack/keystonerc_admin owner=stack group=stack
+
+  - name: adds keystonerc to the bashrc of stack user
+    lineinfile: dest=/home/stack/.bashrc insertafter=EOF line=". keystonerc_admin" state=present
+
