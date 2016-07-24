@@ -15,12 +15,12 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
  2. **Libvirt** ([https://libvirt.org/])
  3. **Libvirt Vagrant Plugin** ([https://github.com/vagrant-libvirt/vagrant-libvirt])
 
-### Mandatory Software whichever you choose to use for your virtual machine:
+### Mandatory Software for your physical system (whichever virtualization engine you choose to use for your virtual machine):
  1. **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
  1. **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
  1. **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
 
-### Resources required on your physical system
+### Resources required on your physical system:
  1. 6GB RAM
  2. 2vcpu
  3. 10GB disk
