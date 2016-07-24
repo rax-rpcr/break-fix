@@ -1,22 +1,53 @@
 #!/bin/bash
 
 BREAKDIR='./breaks'
+COMPLETED_LABS=${BREAKDIR}/completed_labs
+BREAKTASKFILE=
+ARR_INDEX=0
 
-# If no breakfix was specified, select one at random
-if [[ -e "$1" ]] ; then 
-  BREAKTASKFILE="$1"
-else
-  # Choose random file
+choose_random_break_task_file ()
+{
   ARR_INDEX=0
   for AVAILABLE_BREAK in $(ls ${BREAKDIR}/*yml)
-  do
+  do  
     BREAKFIXES[${ARR_INDEX}]=${AVAILABLE_BREAK}
     : $((ARR_INDEX++))
   done
   FILE_TO_CHOOSE=$((${RANDOM}%${ARR_INDEX}))
   BREAKTASKFILE=${BREAKFIXES[${FILE_TO_CHOOSE}]}
+}
+
+update_completed_labs ()
+{
+  echo "${BREAKTASKFILE}" >> ${COMPLETED_LABS}
+}
+
+# If no breakfix was specified, select one at random
+if [[ -e "$1" ]] ; then 
+  BREAKTASKFILE="$1"
+  
+else
+  # Choose random file
+  COMPLETED_BEFORE=1
+  NO_MORE_LABS=0
+  RANDOM_TRIES=0
+  until [ "${COMPLETED_BEFORE}" == "0" ] || [ "${NO_MORE_LABS}" == "1" ]
+  do
+    choose_random_break_task_file 
+    if [ -e ${COMPLETED_LABS} ]
+    then
+      ! grep ${BREAKTASKFILE} ${COMPLETED_LABS} > /dev/null && \
+      COMPLETED_BEFORE=0    
+    else
+      COMPLETED_BEFORE=0
+    fi  
+    : $((RANDOM_TRIES++))
+    [ "${RANDOM_TRIES}" -gt "${ARR_INDEX}" ] && echo "You have completed all the exercises. Delete or edit ${COMPLETED_LABS} to try again" && NO_MORE_LABS=1 && exit 0
+  done
 fi
 
-echo $BREAKTASKFILE
+echo Lab selected: $BREAKTASKFILE
 export BREAKTASKFILE
 vagrant up
+[ "${?}" ] && update_completed_labs
+
