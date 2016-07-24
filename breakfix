@@ -49,5 +49,4 @@ fi
 echo Lab selected: $BREAKTASKFILE
 export BREAKTASKFILE
 vagrant up
-[ "${?}" ] && update_completed_labs
-
+[ "${?}" == "0" ] && update_completed_labs
