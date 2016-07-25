@@ -7,6 +7,10 @@ Vagrant.require_version ">= 1.7"
 Vagrant.configure(2) do |config|
 
   config.ssh.insert_key = false
+  config.ssh.pty = true
+  # If needed, uncomment the line below and replace $BASTION with your bastion server.
+  # config.ssh.proxy_command = "ssh -A $BASTION nc %h %p"
+
   config.vm.box = "centos/7"
 
   config.vm.hostname = "BF1"
@@ -17,9 +21,6 @@ Vagrant.configure(2) do |config|
   config.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
 
   config.vm.provider :rackspace do |rs|
-    # Replace $BASTION with your bastion server
-    config.ssh.proxy_command = "ssh -A $BASTION nc %h %p"
-    config.ssh.pty = true
     rs.username         = ENV['RAX_USERNAME']
     rs.api_key          = ENV['RAX_API_KEY']
     rs.rackspace_region = ENV['RAX_REG']
