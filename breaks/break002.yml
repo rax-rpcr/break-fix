@@ -14,7 +14,7 @@
   become: true
   tasks:
 
-  - name: change SELinux context to the neutron agent files
+  - name: setting up the exercise (step 1 of 2)
     file: path=/usr/bin/neutron-{{ item }}-agent setype=gnome_home_t
     with_items:
       - dhcp 
@@ -23,7 +23,7 @@
       - metering
       - openvswitch
     
-  - name: change SELinux context to the neutron configuration files
+  - name: setting up the exercise (step 2 of 2)
     file: path=/etc/neutron setype=lvm_metadata_t recurse=yes
 
   - name: Description
