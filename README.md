@@ -12,37 +12,42 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
 
 ### If you prefer to use libvirt for your virtual machine:
 
- 2. **Libvirt** ([https://libvirt.org/])
- 3. **Libvirt Vagrant Plugin** ([https://github.com/vagrant-libvirt/vagrant-libvirt])
+ 1. **Libvirt** ([https://libvirt.org/])
+ 2. **Libvirt Vagrant Plugin** ([https://github.com/vagrant-libvirt/vagrant-libvirt])
+
+### If you prefer to use a Rackspace cloud server for your virtual machine:
+
+ 1. $ vagrant plugin install vagrant-rackspace
+ 2. **Rackspace Vagrant Plugin** ([https://github.com/mitchellh/vagrant-rackspace])
 
 ### Mandatory Software for your physical system (whichever virtualization engine you choose to use for your virtual machine):
  1. **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
- 1. **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
- 1. **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
+ 2. **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
+ 3. **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
 
 ### Resources required on your physical system:
  1. 6GB RAM
  2. 2vcpu
  3. 10GB disk
- 
+
 ### Deploying a Lab:
  1. Make sure all requirements are met above. Regarding the virtualization engine, both VirtualBox and libvirt are supported so you could choose whichever works best for you.
- 1. git clone http://github.com/rax-rpcr/break-fix
- 1. cd break-fix
- 1. Create a randomly selected breakfix by running:
+ 2. git clone http://github.com/rax-rpcr/break-fix
+ 3. cd break-fix
+ 4. Create a randomly selected breakfix by running:
 
     \# ./breakfix
-    
+
     OR select a specific breakfix excercise:
-    
+
     \# ./breakfix breaks/breakXXX.yml (for example: ./breakfix breaks/break000.yml)
- 1. Building the breakfix environment takes 20-30 minutes.  The final output will inform you about what is broken.
- 1. Log in via ssh "`ssh root@127.0.0.1 -p 2222`" with password "rpcr". Access Horizon via [http://127.0.0.1:8080/dashboard](http://127.0.0.1:8080/dashboard)  (user credentials may be found in the /root/keystonerc\* files in the VM)
- 1. Away you go!
+ 5. Building the breakfix environment takes 20-30 minutes.  The final output will inform you about what is broken.
+ 6. Log in via ssh "`ssh root@127.0.0.1 -p 2222`" with password "rpcr". Access Horizon via [http://127.0.0.1:8080/dashboard](http://127.0.0.1:8080/dashboard)  (user credentials may be found in the /root/keystonerc\* files in the VM)
+ 7. Away you go!
 
 ### Cleaning up a lab when you are done:
  1. Capture/Document any needed information from the breakfix environment.
- 1. Run "`./breakfix-cleanup`" to delete the VM.
+ 2. Run "`./breakfix-cleanup`" to delete the VM.
 
 ### Adding a new breakfix exercise:
  1. Create a new /breaks/breakXXX.yml playbook file using the next available sequence number.  It is suggested that you copy an existing breakXXX.yml file and modify it to implement your exercise.
