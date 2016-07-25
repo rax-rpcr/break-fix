@@ -14,7 +14,7 @@
   become: true
   tasks: 
 
-  - name: breakfix
+  - name: Setting up the exercise (step 1 of 1)
     command: touch /tmp/breakfix.txt
 
   - name: Description
