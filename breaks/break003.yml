@@ -1,0 +1,44 @@
+# Hints:
+#  Are you able to view glance images? 
+#  Are the glance services running? 
+#  What do the logs say?
+#  
+# 
+#
+#
+#
+#
+# (the first 10 lines are the hint, so pad with empty lines)
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: break stuff
+    mysql_user: name=glance host_all=yes state=absent
+
+  - name: break more stuff
+    service: name=openstack-glance-api state=restarted
+
+  - name: muahaha
+    service: name=openstack-glance-registry state=restarted
+
+  - name: Description
+    debug: 
+      msg: >
+        Users report that the image service isn't working. 
+        If you need a hint, run 'head breaks/break003.yml'
+        To view the solution, run 'tail breaks/break003.yml'
+
+
+#
+# !!!!!!!!!!!!!!!!!!!!!
+# !!! SPOILER ALERT !!!
+# !!!!!!!!!!!!!!!!!!!!!
+#  
+# Solution: 
+# The 'glance' user has been dropped from MySQL,
+# it will need to be added back and services restarted. The original 
+# credentials can be found in /etc/glance/glance-api.conf, restart 
+# openstack-glance-api and openstack-glance-registry after re-creating 
+# the user in MySQL
