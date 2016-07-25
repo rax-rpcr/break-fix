@@ -16,17 +16,31 @@ Vagrant.configure(2) do |config|
   config.vm.network :private_network, type: "dhcp"
   config.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
 
-# for reference | https://www.virtualbox.org/manual/ch08.html#idm3626
+  config.vm.provider :rackspace do |rs|
+    # Replace $BASTION with your bastion server
+    config.ssh.proxy_command = "ssh -A $BASTION nc %h %p"
+    config.ssh.pty = true
+    rs.username         = ENV['RAX_USERNAME']
+    rs.api_key          = ENV['RAX_API_KEY']
+    rs.rackspace_region = ENV['RAX_REG']
+    rs.flavor           = /8 GB General Purpose v1/
+    rs.image            = "76718f32-54af-43a7-bfa2-bf314d4765e3"
+    rs.init_script = 'sed -i\'.bk\' -e \'s/^\(Defaults\s\+requiretty\)/# \1/\' /etc/sudoers'
+  end
+  
   config.vm.provider "libvirt" do |v| 
     v.memory = 5192
     v.cpus = 2 
     v.nested = true
     v.volume_cache = 'none'
-  end 
+  end
+  
+  # for reference | https://www.virtualbox.org/manual/ch08.html#idm3626
   config.vm.provider "virtualbox" do |v| 
     v.customize ["modifyvm", :id, "--name", "BF1"]
     v.customize ["modifyvm", :id, "--cpus", "2"]
     v.customize ["modifyvm", :id, "--memory", "5192"]
+  
   end 
   config.vm.provision "ansible" do |ansible|
 #    ansible.verbose = "vvv"
