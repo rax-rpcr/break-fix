@@ -14,17 +14,20 @@
 - hosts: all
   become: true
   tasks: 
+  - name: exercise setup step 1
+    yum: name=python-pip state=present
 
-  - yum: name=python-pip state=present
+  - name: exercise setup step 2
+    pip: name=shade  
 
-  - pip: name=shade  
-
-  - shell: "openstack --os-auth-url=$(grep OS_AUTH_URL /root/keystonerc_admin | awk -F'=' '{print $2}') --os-username=$(grep OS_USERNAME /root/keystonerc_admin | awk -F'=' '{print $2}') --os-password=$(grep OS_PASSWORD /root/keystonerc_admin | awk -F'=' '{print $2}') --os-project-name=admin  user set --password rackspace admin"
+  - name: exercise setup step 3
+    shell: "openstack --os-auth-url=$(grep OS_AUTH_URL /root/keystonerc_admin | awk -F'=' '{print $2}') --os-username=$(grep OS_USERNAME /root/keystonerc_admin | awk -F'=' '{print $2}') --os-password=$(grep OS_PASSWORD /root/keystonerc_admin | awk -F'=' '{print $2}') --os-project-name=admin  user set --password rackspace admin"
     ignore_errors: yes
 
-  - lineinfile: dest=/root/keystonerc_admin regexp='^export OS_PASSWORD=.*' line='export OS_PASSWORD=rackspace'
+  - name: exercise setup step 4
+    lineinfile: dest=/root/keystonerc_admin regexp='^export OS_PASSWORD=.*' line='export OS_PASSWORD=rackspace'
 
-  - name: exercise setup 
+  - name: exercise setup step 5
     os_server: 
       state: present
       auth:
