@@ -1,6 +1,6 @@
 # Hints:
 #  Can you ping/SSH to the new instance?
-#  Does our OpenStack host VM have property connectivity? 
+#  Does our OpenStack host VM have proper connectivity? 
 #  Where can we configure network access to/from instances?
 #  What security group does this VM belong to? 
 #  What rules are present for this security group?
@@ -40,14 +40,58 @@
       flavor: 1
       network: private
       auto_ip: yes
+
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        A user has spun up a new VM (vm1) and cannot connect to it. Troubleshoot to ensure we can ping/SSH to the instance. 
+        Hints can be found in the /root/hint.txt files
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What happens when you try to ping/SSH to the VM? 
+        Does the host VM (breakfix) have proper connectivity?
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        How can we configure network restrictions to/from guest instances?
+
+  - name: add hints file to /root/hint3.txt
+    blockinfile: 
+      dest: /root/hint3.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What security group does this VM belong to? 
+        What rules are present for that security group? 
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        The default security group rules haven't been created. Fix by running: 
+        $ nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+        $ nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
  
 
   - name: Description
     debug: 
       msg: >
-        A user has spun up a new VM (vm1) and is unable to ping
-        or connect to it. Troubleshoot to ensure that we can ping
-        and SSH to the instance. 
+        Breakfix operation complete! To access the BF1 VM: 'ssh -p 2222 root@127.0.0.1' (password: rpcr). Task file is in /root/BREAKFIX.txt, hint files are in /root/HINT.txt, answer file is in /root/SOLUTION.txt. Good luck!<3 
 
 #
 # !!!!!!!!!!!!!!!!!!!!!

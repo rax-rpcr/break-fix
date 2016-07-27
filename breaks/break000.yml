@@ -17,9 +17,42 @@
   - name: Setting up the exercise (step 1 of 1)
     command: touch /tmp/breakfix.txt
 
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        Nothing is actually broken here! 
+        Hints can be found in the /root/hint.txt files
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        This is a placeholder for a hints file. 
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        This is another placeholder for a secondary hints file. 
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        This is a placeholder for the solution, nothing is broken here. 
+        Testing testing. 
+
   - name: Description
     debug: 
       msg: >
-        Nothing is actually broken!
-        If you need a hint, run 'head breaks/break000.yml'
-
+        Breakfix operation complete! To access the BF1 VM: 'ssh -p 2222 root@127.0.0.1' (password: rpcr). Task file is in /root/BREAKFIX.txt, hint files are in /root/HINT.txt, answer file is in /root/SOLUTION.txt. Good luck!<3

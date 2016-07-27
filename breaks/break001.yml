@@ -1,7 +1,7 @@
 # Hints:
-#  Try running "keystone catalog" 
-#  Which services are required by that command?
-#  Are those services healthy?
+# 
+# 
+# 
 #
 # 
 #
@@ -17,9 +17,42 @@
   - name: Setting up the exercise (step 1 of 1)
     command: systemctl stop httpd
 
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        Users report that they are unable to use openstack at all.
+        Hints can be found in the /root/hint{1,2}.txt files.
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Try running 'keystone catalog'
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What services are required to run the command from the previous hint file? 
+        Are those services healthy?
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        Apache is stopped. Restarting httpd.service will fix this issue. 
+
   - name: Description
     debug: 
       msg: >
-        Users report that they are unable to use openstack at all.
-        If you need a hint, run 'head breaks/break001.yml'
-
+        Breakfix operation complete! To access the BF1 VM: 'ssh -p 2222 root@127.0.0.1' (password: rpcr). Task file is in /root/BREAKFIX.txt, hint files are in /root/hint{1,2}.txt, answer file is in /root/solution.txt. Good luck!<3

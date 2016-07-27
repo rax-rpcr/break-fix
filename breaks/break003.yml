@@ -1,14 +1,7 @@
-# Hints:
-#  Are you able to view glance images? 
-#  Are the glance services running? 
-#  What do the logs say?
-#  
+# break003.yml
 # 
+#  
 #
-#
-#
-#
-# (the first 10 lines are the hint, so pad with empty lines)
 
 - hosts: all
   become: true
@@ -23,13 +16,58 @@
   - name: exercise setup (step 3/3)
     service: name=openstack-glance-registry state=restarted
 
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        Users report that the image service isn't working.
+        Hints can be found in the /root/hint{1,2,3}.txt files
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Are you able to view Glance images? What services are required for this?
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Are the services from hint1 in a healthy state?
+        Check the logs!
+
+  - name: add hints file to /root/hint3.txt
+    blockinfile: 
+      dest: /root/hint3.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Are you able to log into MySQL with the 'glance' user? 
+        What configuration file can you find the credentials for this user in?
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        The 'glance' user has been removed from MySQL. Add it back like so: 
+        mysql > grant all privileges on glance.* to 'glance'@'%' identified by '(password from /etc/glance/glance-api.conf)';
+
+        Restart Glance services after this: 
+        systemctl restart openstack-glance-api openstack-api-registry
+
   - name: Description
     debug: 
       msg: >
-        Users report that the image service isn't working. 
-        If you need a hint, run 'head breaks/break003.yml'
-        To view the solution, run 'tail breaks/break003.yml'
-
+        Breakfix operation complete! To access the BF1 VM: 'ssh -p 2222 root@127.0.0.1' (password: rpcr). Task file is in /root/BREAKFIX.txt, hint files are in /root/HINT.txt, answer file is in /root/SOLUTION.txt. Good luck!<3
 
 #
 # !!!!!!!!!!!!!!!!!!!!!
