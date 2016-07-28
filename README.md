@@ -14,6 +14,7 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
 
  1. **Libvirt** ([https://libvirt.org/])
  2. **Libvirt Vagrant Plugin** ([https://github.com/vagrant-libvirt/vagrant-libvirt])
+ 3. **Vagrant Mutate Plugin** ([https://github.com/sciurus/vagrant-mutate])
 
 ### If you prefer to use a Rackspace cloud server for your virtual machine:
 
