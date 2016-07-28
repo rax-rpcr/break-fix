@@ -28,6 +28,60 @@
     lineinfile: dest=/root/keystonerc_admin regexp='^export OS_PASSWORD=.*' line='export OS_PASSWORD=rackspace'
 
   - name: exercise setup step 5
+    lineinfile: dest=/etc/neutron/neutron.conf regexp='^#rpc_response_timeout.*' line='rpc_response_timeout=360'
+
+  - name: exercise setup step 6
+    service: name={{item}} state=restarted
+    with_items: 
+      - 'neutron-server'
+      - 'neutron-l3-agent'
+      - 'neutron-dhcp-agent'
+      - 'neutron-metadata-agent'
+      - 'neutron-metering-agent'
+      - 'neutron-openvswitch-agent'
+      - 'neutron-lbaas-agent'
+
+#  - name: exercise setup step 6
+#    service: name=neutron-server state=restarted
+
+#  - name: exercise setup step 7
+#    service: name=neutron-l3-agent state=restarted
+
+#  - name: exercise setup step 8
+#    service: name=neutron-dhcp-agent state=restarted
+
+#  - name: exercise setup step 9
+#    service: name=neutron-metadata-agent state=restarted
+
+#  - name: exercise setup
+#    service: name=neutron-metering-agent state=restarted
+
+#  - name: exercise setup
+#    service: name=neutron-openvswitch-agent state=restarted
+
+#  - name: exercise setup
+#    service: name=neutron-lbaas-agent state=restarted
+
+  - name: exercise setup step 10 
+    lineinfile: dest=/etc/nova/nova.conf regexp='^#rpc_response_timeout.*' line='rpc_response_timeout=360'
+
+  - name: exercise setup
+    service: name={{item}} state=restarted
+    with_items: 
+      - openstack-nova-api
+      - openstack-nova-compute
+      - openstack-nova-scheduler
+
+#  - name: exercise setup step 11
+#    service: name=openstack-nova-api state=restarted
+
+#  - name: exercise setup step 12
+#    service: name=openstack-nova-compute state=restarted
+
+#  - name: exercise setup step 13 
+#    service: name=openstack-nova-scheduler state=restarted
+
+  - name: exercise setup step 14
     os_server: 
       state: present
       auth:
@@ -38,7 +92,8 @@
       name: vm1 
       image: cirros
       flavor: 1
-      network: private
+      nics:
+        - net-name: private
       auto_ip: yes
 
   - name: add task file to /root/breakfix.txt
