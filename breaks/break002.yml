@@ -35,7 +35,7 @@
       create: yes
       insertbefore: BOF
       block: | 
-        We cannot access the OpenStack host, log in via remote console and troubleshoot. 
+        Users are reporting that network services aren't working properly. 
         Hints can be found in the /root/hint{1,2} files
         The solution can be found in /root/solution.txt
 
