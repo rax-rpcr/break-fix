@@ -48,5 +48,12 @@ fi
 
 echo Lab selected: $BREAKTASKFILE
 export BREAKTASKFILE
+vagrant box add packstack http://86d05ef7a1e59a6e8a87-0f1aff6e20a80ba0fa046e04d0440490.r64.cf1.rackcdn.com/packstack.box --provider virtualbox
+vagrant init packstack
+sed -i '16i\ \ config.ssh.insert_key = false' Vagrantfile
+sed -i '17i\ \ config.ssh.username = "vagrant"' Vagrantfile
+sed -i '18i\ \ config.ssh.password = "vagrant"' Vagrantfile
 vagrant up
+echo 'localhost ansible_port=2222 ansible_user=root ansible_ssh_pass=rpcr' > localhost.config
+ansible-playbook -i localhost.config $BREAKTASKFILE
 [ "${?}" == "0" ] && update_completed_labs
