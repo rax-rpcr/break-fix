@@ -41,26 +41,6 @@
       - 'neutron-openvswitch-agent'
       - 'neutron-lbaas-agent'
 
-#  - name: exercise setup step 6
-#    service: name=neutron-server state=restarted
-
-#  - name: exercise setup step 7
-#    service: name=neutron-l3-agent state=restarted
-
-#  - name: exercise setup step 8
-#    service: name=neutron-dhcp-agent state=restarted
-
-#  - name: exercise setup step 9
-#    service: name=neutron-metadata-agent state=restarted
-
-#  - name: exercise setup
-#    service: name=neutron-metering-agent state=restarted
-
-#  - name: exercise setup
-#    service: name=neutron-openvswitch-agent state=restarted
-
-#  - name: exercise setup
-#    service: name=neutron-lbaas-agent state=restarted
 
   - name: exercise setup step 10 
     lineinfile: dest=/etc/nova/nova.conf regexp='^#rpc_response_timeout.*' line='rpc_response_timeout=360'
@@ -72,14 +52,6 @@
       - openstack-nova-compute
       - openstack-nova-scheduler
 
-#  - name: exercise setup step 11
-#    service: name=openstack-nova-api state=restarted
-
-#  - name: exercise setup step 12
-#    service: name=openstack-nova-compute state=restarted
-
-#  - name: exercise setup step 13 
-#    service: name=openstack-nova-scheduler state=restarted
 
   - name: exercise setup step 14
     os_server: 
