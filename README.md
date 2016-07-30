@@ -8,28 +8,28 @@ The individual breakfix playbooks are in the `breaks` sub-directory. Looking pas
 
 ### If you prefer to use VirtualBox for your virtual machine:
 
- 1. **Virtualbox** ([https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads))
+ - **Virtualbox** ([https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads))
 
 ### If you prefer to use libvirt for your virtual machine:
 
- 1. **Libvirt** (https://libvirt.org/)
- 2. **Libvirt Vagrant Plugin** (https://github.com/vagrant-libvirt/vagrant-libvirt)
+ - **Libvirt** (https://libvirt.org/)
+ - **Libvirt Vagrant Plugin** (https://github.com/vagrant-libvirt/vagrant-libvirt)
 
 ### If you prefer to use a Rackspace cloud server for your virtual machine:
 
- 1. **Rackspace Vagrant Plugin** (https://github.com/mitchellh/vagrant-rackspace)
+ - **Rackspace Vagrant Plugin** (https://github.com/mitchellh/vagrant-rackspace)
 
 ### Mandatory Software for your physical system (whichever virtualization engine you choose to use for your virtual machine):
- 1. **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
- 2. **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
- 3. **Vagrant Sahara Plugin** (https://github.com/jedi4ever/sahara)
- 4. **Vagrant fog Plugin** (https://github.com/fog/fog-libvirt)
- 3. **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
+ - **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
+ - **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
+ - **Vagrant Sahara Plugin** (https://github.com/jedi4ever/sahara)
+ - **Vagrant fog Plugin** (https://github.com/fog/fog-libvirt)
+ - **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
 
 ### Resources required on your physical system if you use libvirt or VirtualBox:
- 1. 6GB RAM
- 2. 2vcpu
- 3. 10GB disk
+ - 6GB RAM
+ - 2vcpu
+ - 10GB disk
 
 ### Setup prior to deploy your first lab
 
