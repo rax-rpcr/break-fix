@@ -34,20 +34,20 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
 
 ### Setup prior to deploy your first lab
  Run the following commands with the user you are going to run your environment:
- $ vagrant plugin install fog
- $ vagrant plugin install sahara
+ 1. $ vagrant plugin install fog
+ 2. $ vagrant plugin install sahara
  
  If you decide to use libvirt:
- $ vagrant plugin install vagrant-libvirt
+ 1. $ vagrant plugin install vagrant-libvirt
  
  If you decide to use rackspace cloud:
- $ vagrant plugin install vagrant-rackspace
- $ export RAX_USERNAME=<yourcloudusername>
- $ export RAX_API_KEY=<yourapikey>
- $ export RAS_REG=<yourrackspacecloudregion>
+ 1. $ vagrant plugin install vagrant-rackspace
+ 2. $ export RAX_USERNAME=<yourcloudusername>
+ 3. $ export RAX_API_KEY=<yourapikey>
+ 4. $ export RAS_REG=<yourrackspacecloudregion>
  
  If you decide to use VirtualBox:
- Vagrant VirtualBox is out of the box, so #youshouldnotworry
+ 1. Vagrant VirtualBox is out of the box, so #youshouldnotworry
 
 ### Deploying a Lab:
  1. Make sure all requirements are met above.
@@ -63,10 +63,14 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
  5. The first time you deploy your lab, the scripts are going to build the breakfix environment. Building the breakfix environment takes 20-30 minutes. Then, the scripts will take a snapshot and will rollback to it for the following exercises.
  6. The final output will inform you about where you can find info about the exercise.
  6. Away you go!
+ 7. Capture/Document any needed information from the breakfix environment.
 
-### Cleaning up a lab when you are done:
- 1. Capture/Document any needed information from the breakfix environment.
- 2. Run "`./breakfix-cleanup`" to delete the VM.
+### Notes:
 
-### Adding a new breakfix exercise:
+During the build it could happen that the CentOS repositories become available. Just rerun the script until the exit is succesfull.
+
+### Cleaning up after you are done with all your labs:
+ 1. Run "`./breakfix-cleanup`" to delete the VM.
+
+### Want to participate? Adding a new breakfix exercise:
  1. Create a new /breaks/breakXXX.yml playbook file using the next available sequence number.  It is suggested that you copy an existing breakXXX.yml file and modify it to implement your exercise.
