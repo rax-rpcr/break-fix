@@ -16,17 +16,51 @@
   become: true
   tasks:
 
-  - name: exercise setup step 1
+  - name: Setting up the exercise (step 1 of 3)
     shell: source /root/keystonerc_admin && nova boot --flavor m1.tiny --image cirros --nic net-name=private --security-group default troubled_instance
 
-  - name: exercise setup step 2
+  - name: Setting up the exercise (step 2 of 3)
     shell: source /root/keystonerc_admin && nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
 
-  - name: exercise setup step 3
+  - name: Setting up the exercise (step 3 of 3)
     shell: source /root/keystonerc_admin && neutron router-interface-delete router1 private_subnet
 
-  - name: Description
-    debug:
-      msg: >
-        Customer has reported that he can not reach his instance via ssh neither ping after a maintenance his team did last night.
-        If you need a hint, run 'head breaks/break005.yml'
+
+  - name: add task file to /root/breakfix.txt
+    blockinfile:
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Customer has reported that he can not reach his instance
+        via ssh neither ping after a maintenance his team did last night.
+  - name: add hints file to /root/hint1.txt
+    blockinfile:
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What is involved with networking in Openstack ?
+        Does our OpenStack host VM have property connectivity?
+
+  - name: add hints file to /root/hint2.txt
+    blockinfile:
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Are all the hops reachable trough the environment ?
+        Where can we configure network access to/from instances?
+        What security group does this VM belong to?
+  - name: add answer file to /root/solution.txt
+    blockinfile:
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Add the security rule to permit ssh to the default security group
+        $ nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
+        Add a router interface to the private network
+        $ neutron router-interface-add router1 private_subnet
+
+
