@@ -79,4 +79,4 @@ Run "`./breakfix-cleanup`" to delete the VM.
 
 ### Want to participate? Adding a new breakfix exercise:
 
-Create a new `breaks/breakXXX.yml` playbook file using the next available sequence number.  It is suggested that you copy an existing `breakXXX.yml` file and modify it to implement your exercise.
+Create a new `breaks/breakXXX.yml` playbook file using the next available sequence number.  It is suggested that you copy an existing `break000.yml` (which is the current standard and contains the instructions how to build your own breaks) and modify it to implement your exercise.
