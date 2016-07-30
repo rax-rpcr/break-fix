@@ -64,19 +64,3 @@
         Restart Glance services after this: 
         systemctl restart openstack-glance-api openstack-api-registry
 
-  - name: Description
-    debug: 
-      msg: >
-        Breakfix operation complete! To access the BF1 VM: 'ssh -p 2222 root@127.0.0.1' (password: rpcr). Task file is in /root/BREAKFIX.txt, hint files are in /root/HINT.txt, answer file is in /root/SOLUTION.txt. Good luck!<3
-
-#
-# !!!!!!!!!!!!!!!!!!!!!
-# !!! SPOILER ALERT !!!
-# !!!!!!!!!!!!!!!!!!!!!
-#  
-# Solution: 
-# The 'glance' user has been dropped from MySQL,
-# it will need to be added back and services restarted. The original 
-# credentials can be found in /etc/glance/glance-api.conf, restart 
-# openstack-glance-api and openstack-glance-registry after re-creating 
-# the user in MySQL
