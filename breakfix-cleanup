@@ -1,3 +1,3 @@
 #!/bin/bash
 
-BREAKTASKFILE='dummy' vagrant destroy -f default
+vagrant destroy -f BF1
