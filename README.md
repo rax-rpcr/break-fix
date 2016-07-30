@@ -34,20 +34,20 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
 
 ### Setup prior to deploy your first lab
  Run the following commands with the user you are going to run your environment:
- 1. $ vagrant plugin install fog
- 2. $ vagrant plugin install sahara
+ # $ vagrant plugin install fog
+ # $ vagrant plugin install sahara
  
  If you decide to use libvirt:
- 1. $ vagrant plugin install vagrant-libvirt
+ # $ vagrant plugin install vagrant-libvirt
  
  If you decide to use rackspace cloud:
- 1. $ vagrant plugin install vagrant-rackspace
- 2. $ export RAX_USERNAME=<yourcloudusername>
- 3. $ export RAX_API_KEY=<yourapikey>
- 4. $ export RAS_REG=<yourrackspacecloudregion>
+ #  $ vagrant plugin install vagrant-rackspace
+ # $ export RAX_USERNAME=<yourcloudusername>
+ # $ export RAX_API_KEY=<yourapikey>
+ # $ export RAS_REG=<yourrackspacecloudregion>
  
  If you decide to use VirtualBox:
- 1. Vagrant VirtualBox is out of the box, so #youshouldnotworry
+ # Vagrant VirtualBox is out of the box, so #youshouldnotworry
 
 ### Deploying a Lab:
  1. Make sure all requirements are met above.
