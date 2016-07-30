@@ -47,7 +47,7 @@ $ vagrant plugin install vagrant-libvirt
 $ vagrant plugin install vagrant-rackspace
 $ export RAX_USERNAME=<your cloud username>
 $ export RAX_API_KEY=<your api key>
-$ export RAX_REG=<your rackspace cloudregion*
+$ export RAX_REG=<your rackspace cloudregion>
 ``` 
 ###### If you decide to use VirtualBox:
 Vagrant VirtualBox is out of the box, so #youshouldnotworry
