@@ -1,0 +1,37 @@
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: Add Stack User (stack|stack)
+    user: name=stack comment="Stack User" groups=wheel password=$6$rounds=656000$GxOkQlwGoe.LBYrK$tIFHEOC/mUNwvTxdqLJNNxSUOQmyaxILNswSh2itglm3104zfjJPs07JASsexLCng4T5ZrWPob4hQK8tlQuJx. state=present
+
+  - name: Change root pw (root|rpcr)
+    user: name=root password=$6$rounds=656000$0tqH37pBAxrlG9H0$KLGmcdSUAkXbvbUq0VF.10FEnII6QEa9HTA6pdzlGg46voT5Wyl6u6eLckwyLuaDdf8ihW1r5aJYHVcLzmkiz.
+
+  - name: Apply all system updates
+    yum: name=* state=latest
+
+  - name: Add Mitaka repository
+    yum: name=centos-release-openstack-mitaka state=latest
+
+  - name: Install Packstack package
+    yum: name=openstack-packstack state=present
+
+  - name: running packstack --allinone
+    command: packstack --allinone
+
+  - name: disable default httpd vhost
+    command: mv /etc/httpd/conf.d/15-default.conf /etc/httpd/conf.d/15-default.conf.bak
+
+  - name: restart apache
+    service: name=httpd state=restarted
+
+  - name: add keystonerc to stack user
+    command: cp /root/keystonerc_admin /home/stack/keystonerc_admin
+
+  - name: set the right permissions to the keystonerc_admin file
+    file: path=/home/stack/keystonerc_admin owner=stack group=stack
+
+  - name: adds keystonerc to the bashrc of stack user
+    lineinfile: dest=/home/stack/.bashrc insertafter=EOF line=". keystonerc_admin" state=present
+
