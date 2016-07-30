@@ -51,8 +51,3 @@
       block: | 
         This is a placeholder for the solution, nothing is broken here. 
         Testing testing. 
-
-  - name: Description
-    debug: 
-      msg: >
-        Breakfix operation complete! To access the BF1 VM: 'ssh -p 2222 root@127.0.0.1' (password: rpcr). Task file is in /root/BREAKFIX.txt, hint files are in /root/HINT.txt, answer file is in /root/SOLUTION.txt. Good luck!<3
