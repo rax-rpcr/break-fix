@@ -8,7 +8,7 @@ ARR_INDEX=0
 
 get_ip_from_provider ()
 {
-  VIRTUAL_MACHINE_IP=$(basenane .vagrant/machines/BF1/libvirt/logs/ssh-forwarding*.log  | awk -F- '{ print $4}' | cut -d_ -f1)
+  VIRTUAL_MACHINE_IP=$(basename .vagrant/machines/BF1/libvirt/logs/ssh-forwarding*.log  | awk -F- '{ print $4}' | cut -d_ -f1)
 }
 
 throw_informative_message ()
@@ -16,6 +16,7 @@ throw_informative_message ()
   [ -e ".vagrant/machines/BF1/libvirt" ] && get_ip_from_provider
   echo
   echo 'Breakfix operation complete!'
+  echo
   echo "To access the BF1 VM: ssh root@${VIRTUAL_MACHINE_IP}"
   echo '(password: rpcr).'
   echo
