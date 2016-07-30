@@ -37,7 +37,7 @@ choose_random_break_task_file ()
 {
   ARR_INDEX=0
   for AVAILABLE_BREAK in $(ls ${BREAKDIR}/*yml)
-  do  
+  do
     BREAKFIXES[${ARR_INDEX}]=${AVAILABLE_BREAK}
     : $((ARR_INDEX++))
   done
@@ -53,7 +53,7 @@ update_completed_labs ()
 
 first_time_vm ()
 {
-  rm -rf .vagrant 
+  rm -rf .vagrant
   vagrant up
   [ "${?}" == "0" ] && vagrant sandbox on
   [ "${?}" == "0" ] && vagrant sandbox commit
@@ -70,7 +70,7 @@ rollback_vm ()
 setup_exercise ()
 {
   # If no breakfix was specified, select one at random
-  if [[ -e "$1" ]] ; then 
+  if [[ -e "$1" ]] ; then
     BREAKTASKFILE="$1"
   else
     # Choose random file
@@ -79,29 +79,29 @@ setup_exercise ()
     RANDOM_TRIES=0
     until [ "${COMPLETED_BEFORE}" == "0" ] || [ "${NO_MORE_LABS}" == "1" ]
     do
-      choose_random_break_task_file 
+      choose_random_break_task_file
       if [ -e ${COMPLETED_LABS} ]
       then
         ! grep ${BREAKTASKFILE} ${COMPLETED_LABS} > /dev/null && \
-        COMPLETED_BEFORE=0    
+        COMPLETED_BEFORE=0
       else
         COMPLETED_BEFORE=0
-      fi  
+      fi
       : $((RANDOM_TRIES++))
       [ "${RANDOM_TRIES}" -gt "${ARR_INDEX}" ] && echo "You have completed all the exercises. Delete or edit ${COMPLETED_LABS} to try again" && NO_MORE_LABS=1 && return 0
     done
-  fi  
+  fi
+  echo Lab selected: ${BREAKTASKFILE}
   ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory ${BREAKTASKFILE}
   status=${?}
   [ "${status}" == "0" ] && throw_informative_message
-  return ${status} 
+  return ${status}
 }
-
 
 # main section
 
-echo Lab selected: $BREAKTASKFILE
 export BREAKTASKFILE
+
 
 vagrant sandbox status > sandbox_status 2>&1
 
@@ -113,6 +113,5 @@ else
   rollback_vm
   status=${?}
 fi
-[ status == "${0}" ] setup_exercise ${1}
+[ "${status}" == "0" ] && setup_exercise ${1}
 [ "${?}" == "0" ] && update_completed_labs
-
