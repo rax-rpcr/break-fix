@@ -24,6 +24,7 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
 ### Mandatory Software for your physical system (whichever virtualization engine you choose to use for your virtual machine):
  1. **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
  2. **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
+ 3. **Vagrant Sahara Plugin** ([https://github.com/jedi4ever/sahara])
  3. **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
 
 ### Resources required on your physical system:
