@@ -71,7 +71,7 @@ Vagrant VirtualBox is out of the box, so #youshouldnotworry
 
 ### Notes:
 
-During the build it could happen that the CentOS repositories become available or fails the OpenStack all-in-one installation. Just rerun the script until the exit is succesfull run `./breakfix-cleanup` if required.
+During the build it could happen that the CentOS repositories become available or fails the OpenStack all-in-one installation. Just rerun the script until the exit is succesfull and/or run `./breakfix-cleanup` if required.
 
 ### Cleaning up after you are done with all your labs:
 
