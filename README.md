@@ -2,7 +2,7 @@
 
 These scripts will build a basic all in one VM running RDO Packstack. Purpose of these scripts to to give you a starting point to start creating "break/fix" scenerios for the team competition.
 
-The individual breakfix playbooks are in the `breaks` sub-directory.  The top few lines of each playbook contain a hint, if needed.  Looking past the first few lines before solving the problem will spoil the exercise and bring you bad openstack karma.
+The individual breakfix playbooks are in the `breaks` sub-directory. Looking past the first few lines before solving the problem will spoil the exercise and bring you bad openstack karma.
 
 ### Requirements for your machine:
 
@@ -17,8 +17,7 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
 
 ### If you prefer to use a Rackspace cloud server for your virtual machine:
 
- 1. $ vagrant plugin install vagrant-rackspace
- 2. **Rackspace Vagrant Plugin** (https://github.com/mitchellh/vagrant-rackspace)
+ 1. **Rackspace Vagrant Plugin** (https://github.com/mitchellh/vagrant-rackspace)
 
 ### Mandatory Software for your physical system (whichever virtualization engine you choose to use for your virtual machine):
  1. **Git** ([https://git-scm.com/downloads](https://git-scm.com/downloads))
@@ -35,32 +34,35 @@ The individual breakfix playbooks are in the `breaks` sub-directory.  The top fe
 ### Setup prior to deploy your first lab
 
 ###### Run the following commands with the user you are going to run your environment:
- 1. $ vagrant plugin install fog
- 1. $ vagrant plugin install sahara
- 
+```
+$ vagrant plugin install fog
+$ vagrant plugin install sahara
+```
 ###### If you decide to use libvirt:
- 1. $ vagrant plugin install vagrant-libvirt
- 
+```
+$ vagrant plugin install vagrant-libvirt
+```
 ###### If you decide to use rackspace cloud:
- 1. $ vagrant plugin install vagrant-rackspace
- 1. $ export RAX_USERNAME=*yourcloudusername*
- 1. $ export RAX_API_KEY=*yourapikey*
- 1. $ export RAX_REG=*yourrackspacecloudregion*
- 
+```
+$ vagrant plugin install vagrant-rackspace
+$ export RAX_USERNAME=*yourcloudusername*
+$ export RAX_API_KEY=*yourapikey*
+$ export RAX_REG=*yourrackspacecloudregion*
+``` 
 ###### If you decide to use VirtualBox:
- 1. Vagrant VirtualBox is out of the box, so #youshouldnotworry
+Vagrant VirtualBox is out of the box, so #youshouldnotworry
 
 ### Deploying a Lab:
  1. Make sure all requirements are met above.
- 2. git clone http://github.com/rax-rpcr/break-fix
- 3. cd break-fix
+ 2. `git clone http://github.com/rax-rpcr/break-fix`
+ 3. `cd break-fix`
  4. Create a randomly selected breakfix by running:
 
-    \# ./breakfix
+    \# `./breakfix`
 
     OR select a specific breakfix excercise:
 
-    \# ./breakfix breaks/breakXXX.yml (for example: ./breakfix breaks/break000.yml)
+    \# `./breakfix breaks/break*XXX*.yml` (for example: `./breakfix breaks/break000.yml`)
  5. The first time you deploy your lab, the scripts are going to build the breakfix environment. Building the breakfix environment takes 20-30 minutes. Then, the scripts will take a snapshot and will rollback to it for the following exercises.
  6. The final output will inform you about where you can find info about the exercise.
  6. Away you go!
