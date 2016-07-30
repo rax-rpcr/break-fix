@@ -115,19 +115,3 @@
         $ nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
  
 
-  - name: Description
-    debug: 
-      msg: >
-        Breakfix operation complete! To access the BF1 VM: 'ssh -p 2222 root@127.0.0.1' (password: rpcr). Task file is in /root/BREAKFIX.txt, hint files are in /root/HINT.txt, answer file is in /root/SOLUTION.txt. Good luck!<3 
-
-#
-# !!!!!!!!!!!!!!!!!!!!!
-# !!! SPOILER ALERT !!!
-# !!!!!!!!!!!!!!!!!!!!!
-#  
-# Solution: 
-# The default security group rules haven't been created. Fix like so: 
-# nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
-# nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
-# 
-#
