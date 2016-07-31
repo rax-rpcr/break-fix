@@ -7,12 +7,12 @@ VIRTUAL_MACHINE_IP="127.0.0.1 -p 2222"
 ARR_INDEX=0
 
 get_ip_from_provider ()
-{
+{ 
   VIRTUAL_MACHINE_IP=$(basename .vagrant/machines/BF1/libvirt/logs/ssh-forwarding*.log  | awk -F- '{ print $4}' | cut -d_ -f1)
 }
 
 throw_informative_message ()
-{
+{ 
   [ -e ".vagrant/machines/BF1/libvirt" ] && get_ip_from_provider
   echo
   echo 'Breakfix operation complete!'
@@ -29,8 +29,9 @@ throw_informative_message ()
 }
 
 clean_before_start ()
-{
-   [ -e sandbox_status ] && rm sandbox_status
+{ 
+  [ -e sandbox_status ] && rm sandbox_status
+  [ -e playbook.retry ] && rm playbook.retry
 }
 
 
@@ -38,7 +39,7 @@ choose_random_break_task_file ()
 {
   ARR_INDEX=0
   for AVAILABLE_BREAK in $(ls ${BREAKDIR}/*yml)
-  do
+  do  
     BREAKFIXES[${ARR_INDEX}]=${AVAILABLE_BREAK}
     : $((ARR_INDEX++))
   done
@@ -56,7 +57,32 @@ first_time_vm ()
 {
   rm -rf .vagrant
   vagrant up
-  [ "${?}" == "0" ] && vagrant sandbox on
+  status=${?}
+  if [ "${status}" != "0" ] && [ -e playbook.retry ]
+  then
+    # try to re deploy the base playbook until successful
+    until [ "${status}" == "0" ]
+    do
+      echo
+      echo 'BASE ANSIBLE PLAYBOOK DEPLOYMENT FAILED!!!'
+      echo 'You should not worry!'
+      echo 'I will try to redeploy it until successful'
+      echo
+      ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory \
+        --limit @playbook.retry playbook.yml
+      status=${?}
+    done
+  elif [ "${status}" != "0" ]
+  then
+    echo
+    echo Something unexpected happened.
+    echo Please delete the virtual machine with ./breakfix-cleanup
+    echo and rerun ${0}
+    echo
+    # Something else failed, fail abruptly
+    exit ${status}
+  fi  
+  [ "${status}" == "0" ] && vagrant sandbox on
   [ "${?}" == "0" ] && vagrant sandbox commit
   return ${?}
 }
@@ -66,7 +92,6 @@ rollback_vm ()
   vagrant sandbox rollback
   return ${?}
 }
-
 
 setup_exercise ()
 {
@@ -101,8 +126,10 @@ setup_exercise ()
 
 # main section
 
-export BREAKTASKFILE
+# Make sure no trash files are scattered around
+clean_before_start
 
+export BREAKTASKFILE
 
 vagrant sandbox status > sandbox_status 2>&1
 
