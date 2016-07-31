@@ -1,0 +1,77 @@
+# In this case, nothing is broken, but a tale is about to be told
+# 
+# 
+# 
+#
+# 
+#
+#
+#
+#
+# (the first 10 lines are the hint, so pad with empty lines)
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: Setting up the exercise (step 1 of 2)
+    blockinfile:
+        dest: /root/the_tale_of_a_pirate.txt
+        create: yes
+        insertbefore: BOF
+        block: |
+           begin-base64 664 -
+           VGhlcmUgd2FzIGEgdGltZSwgZHVyaW5nIG15IGNvdW50bGVzcyB0cmF2ZWxz
+           IHVuZGVyIHRoZSBzZWEsCkEgbWlnaHR5IG1vbnN0ZXIgYXBwZWFyIG9uIHRo
+           ZSBkYXJrZXN0IG9mIHRoZSBuaWdodC4KTm8gbGFuZCwgbm8gb3RoZXIgc2hp
+           cCwganVzdCBkYXJrbmVzcyBhcyBmYXIgYXMgY291bGQgb25seSBiZSBzZWVu
+           Ck5vIG1hdHRlciwgdGhlIG1pZ2h0LCBteSBjcmV3IGxvc3QgdGhlIGZpZ2h0
+           LgoKU3RyYW5kZWQgb24gYSBiZWFjaCwgd2hhdCB3YXMgbGVmdCBmcm9tIHRo
+           ZSB3cmVjaywKV2l0aCBubyBvdGhlciB0aGluZyB0aGF0IG15IGJlYXJkLCB0
+           aGUgYm9va3MgYW5kIHNvbWUgY2xvdGhlcywKT2YgdGhhdCBwaXJhdGUgdGhh
+           dCB3YXMgb25jZSBhIG1hc3RlciBieSBoZWFydCwKbm90aGluZyB3YXMgbGVm
+           dCBidXQgbXkgYm9va3MgbmVhciB0aGUgc2hvcmVzLgoKU28gSSBoaWQgdGhl
+           IG1hcCB0byBteSB0cmVhc3VyZSBvbiBvbmUsCm9uIHRoZSAzcmQgcm93IGZy
+           b20gYm90dG9tIHRvIHRvcCwKV2lsbCB0aGUga2luZyByZXR1cm4/IFdpbGwg
+           aGUgZ2V0IGhpcyBndWVyZG9uPwpPbiB0aGUgc2Vjb25kIHNoZWxmLCB0aGVu
+           IEkgd2lsbCBzdG9wLgoKV2lsbCBJIGFsd2F5cyBiZSBvbiB0aGUgbGFuZCBv
+           ZiB0aGUgc2hhZG93PwpNeSBsb290IHdpbGwgaGVscCBtZSB0byBmaW5kIHRo
+           ZSBuZXh0IHN0ZXAhClNvIGl0IGJlZ2lucyB0aGUgcXVlc3QgZm9yIHRoZSBz
+           ZWVrIG9mIGEgbWVhZG93LAp0byByZWNvdmVyIGhpcyB0cmVhc3VyZSBhcyB0
+           aGUgb25seSB0aGluZyBsZWZ0LgoK
+           ====
+
+  - name: Setting up the exercise (step 2 of 2)
+    yum: name=sharutils state=present
+ 
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        The first hint for the treasure is on /root/the_tale_of_a_pirate.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Does the file encoding looks familiar?
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        You should try something that encodes using that type of base 
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        A command with a uu will guide you to the rest of the hints. 
