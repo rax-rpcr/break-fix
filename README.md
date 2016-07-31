@@ -71,7 +71,7 @@ Vagrant VirtualBox is out of the box, so #youshouldnotworry
 
 ### Notes:
 
-During the build it could happen that the CentOS repositories become available or fails the OpenStack all-in-one installation. If that's the case, the script will retry to redeploy the ansible playbook until it's succesful. If something else besides ansible is broken, the script will exit. In such scenario, just rerun the script until the exit is succesfull and/or run `./breakfix-cleanup` if required.
+During the build it could happen that the CentOS repositories become unavailable or fails the OpenStack all-in-one installation. If that's the case, the script will retry to redeploy the ansible playbook until it's succesful. If something else besides that is broken, the script will exit. In such scenario, just rerun the script until the exit is succesfull and/or run `./breakfix-cleanup` if required.
 
 ### Cleaning up after you are done with all your labs:
 
