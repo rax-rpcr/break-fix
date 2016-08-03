@@ -42,10 +42,10 @@
       - 'neutron-lbaas-agent'
 
 
-  - name: exercise setup step 10 
+  - name: exercise setup step 7 
     lineinfile: dest=/etc/nova/nova.conf regexp='^#rpc_response_timeout.*' line='rpc_response_timeout=360'
 
-  - name: exercise setup
+  - name: exercise setup step 8
     service: name={{item}} state=restarted
     with_items: 
       - openstack-nova-api
@@ -53,7 +53,7 @@
       - openstack-nova-scheduler
 
 
-  - name: exercise setup step 14
+  - name: exercise setup step 9
     os_server: 
       state: present
       auth:
