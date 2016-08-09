@@ -24,7 +24,7 @@ The individual breakfix playbooks are in the `breaks` sub-directory. Looking pas
  - **Vagrant** ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
  - **Vagrant Sahara Plugin** (https://github.com/jedi4ever/sahara)
  - **Vagrant fog Plugin** (https://github.com/fog/fog-libvirt)
- - **Ansible** ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
+ - **Ansible** version 2 or newer ([http://docs.ansible.com/ansible/intro\_installation.html](http://docs.ansible.com/ansible/intro_installation.html))
 
 ### Resources required on your physical system if you use libvirt or VirtualBox:
  - 6GB RAM
