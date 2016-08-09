@@ -1,3 +1,4 @@
 .vagrant**
 breaks/completed_labs
 sandbox_status
+breaks/*.retry
