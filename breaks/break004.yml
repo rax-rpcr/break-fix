@@ -39,8 +39,6 @@
       - 'neutron-metadata-agent'
       - 'neutron-metering-agent'
       - 'neutron-openvswitch-agent'
-      - 'neutron-lbaas-agent'
-
 
   - name: exercise setup step 7 
     lineinfile: dest=/etc/nova/nova.conf regexp='^#rpc_response_timeout.*' line='rpc_response_timeout=360'
