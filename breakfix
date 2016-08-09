@@ -137,7 +137,7 @@ export BREAKTASKFILE
 # test if vm snapshot exsist or not
 vagrant sandbox status > sandbox_status 2>&1
 grep "not" sandbox_status
-snapshot = $?
+snapshot=$?
 echo "grep status $?"
 
 #if grep of standbox is true, status is 0 (first_time_vm) else status is 1 (rollback)
