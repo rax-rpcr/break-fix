@@ -1,17 +1,7 @@
-# In this case, nothing is broken
-# 
-# 
-# 
-#
-# 
-#
-#
-#
-#
-# (the first 10 lines are the hint, so pad with empty lines)
 # Author: Scott Gilbert
 # Tags: Network Nova Keystone
 # Level: 1, 2, or 3
+
 - hosts: all
   become: true
   tasks: 

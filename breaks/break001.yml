@@ -1,14 +1,6 @@
-# Hints:
-# 
-# 
-# 
-#
-# 
-#
-#
-#
-#
-# (the first 10 lines are the hint, so pad with empty lines)
+# Author: Scott Gilbert
+# Tags: Keystone
+# Level: 1
 
 - hosts: all
   become: true
