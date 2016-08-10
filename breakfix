@@ -136,7 +136,7 @@ export BREAKTASKFILE
 
 # test if vm snapshot exsist or not
 vagrant sandbox status > sandbox_status 2>&1
-grep "not" sandbox_status
+egrep '(not|off)' sandbox_status
 snapshot=$?
 echo "grep status $?"
 

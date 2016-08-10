@@ -1,3 +1,12 @@
 #!/bin/bash
 
-vagrant halt -f BF1
+read -p "Heads up! This will destroy the BF1 VM, you'll need to wait for packstack again after running this script.
+If you wish to run another breakfix, simply re-run the breakfix script and the snapshot will be rolled back.
+Are you sure you want to do this? (y/n) " CONF
+if [ "$CONF" = "y" ]
+then
+  echo "As you wish! Destroying BF1..." 
+  vagrant destroy -f BF1
+else
+  exit
+fi
