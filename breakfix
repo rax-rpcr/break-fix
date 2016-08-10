@@ -149,7 +149,7 @@ then
 elif [ $snapshot -eq 1 ]
   then
    echo "rollback_vm"
-   rollback_vm
+   rollback_vm && sleep 5
    status=${?}
 fi
 [ "${status}" == "0" ] && setup_exercise ${1}
