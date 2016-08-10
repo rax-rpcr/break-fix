@@ -88,6 +88,10 @@ first_time_vm ()
     # Something else failed, fail abruptly
     exit ${status}
   fi  
+  if [ ! -f ${COMPLETED_LABS} ]
+  then
+    touch ${COMPLETED_LABS}
+  fi
   [ "${status}" == "0" ] && vagrant sandbox on
   [ "${?}" == "0" ] && vagrant sandbox commit
   return ${?}
@@ -108,14 +112,23 @@ setup_exercise ()
     # Choose random file
     choose_random_break_task_file
     if [ "$BREAKTASKFILE" == "" ] ; then
-      echo -e "\nYou have completed all of the breakfix exercises. Delete or edit ${COMPLETED_LABS} to try again\n"
-      return 1
+      read -p "You have completed all of the breakfix exercises. Do you want to start all over? (y/n)" CONF
+      if [ "$CONF" = "y" ]
+      then
+        echo "As you wish! Emptying out ${COMPLETED_LABS}..."
+        rm ${COMPLETED_LABS}
+        touch ${COMPLETED_LABS}
+        choose_random_break_task_file
+      else
+        echo "You're all done, then. Bye!" 
+        return 1
+      fi
     fi
   fi
 
   echo "Lab selected: ${BREAKTASKFILE}"
 
-  ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory ${BREAKTASKFILE}
+  ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory ${BREAKTASKFILE} --ssh-extra-args="-o ControlPath=none"
   status=${?}
   [ "${status}" == "0" ] && throw_informative_message
   return ${status}
@@ -127,6 +140,7 @@ setup_exercise ()
 #clean_before_start
 
 export BREAKTASKFILE
+export ANSIBLE_SCP_IF_SSH=y
 
 # test if vm snapshot exsist or not
 vagrant sandbox status > sandbox_status 2>&1
