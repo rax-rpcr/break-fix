@@ -112,10 +112,10 @@ setup_exercise ()
     # Choose random file
     choose_random_break_task_file
     if [ "$BREAKTASKFILE" == "" ] ; then
-      read -p "You have completed all of the breakfix exercises. Do you want to start all over? (y/n)" CONF
+      read -p "Either you have completed all of the breakfix exercises, or your completed_labs file does not exist. Do you want to create this file/start all over? (y/n)" CONF
       if [ "$CONF" = "y" ]
       then
-        echo "As you wish! Emptying out ${COMPLETED_LABS}..."
+        echo "As you wish! Recreating out ${COMPLETED_LABS}..."
         rm ${COMPLETED_LABS}
         touch ${COMPLETED_LABS}
         choose_random_break_task_file

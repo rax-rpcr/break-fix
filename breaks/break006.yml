@@ -1,0 +1,62 @@
+# Author: Scott Gilbert
+# Tags: Network Nova Keystone
+# Level: 1, 2, or 3
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: Setting up the exercise (step 1)
+    mysql_db: name=nova state=absent
+
+  - name: Setting up the exercise (step 2)
+    mysql_db: name=nova_api state=absent
+
+  - name: Setting up the exercise (step 3)
+    service: name={{item}} state=restarted
+    with_items: 
+      - 'openstack-nova-api' 
+      - 'openstack-nova-compute'
+      - 'openstack-nova-conductor'
+      - 'openstack-nova-scheduler'
+    ignore_errors: yes
+
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        Users are unable to use the Compute service at all. 
+        Hints can be found in the /root/hint.txt files
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Can you run nova list? What status are the nova services in? 
+        Any relevant information in /var/log/nova/* logs?
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Where can you find credentials for the nova user? 
+        How can you re-sync the MySQL data for nova?
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        The nova database has been dropped from MySQL. Create the database & user, re-sync the data, and restart nova: 
+          mysql> create database nova; 
+          mysql> grant all privileges on nova.* to 'nova'@'HOST' identified by 'password'; <-- you can find this info in /etc/nova/nova.conf
+          # nova-manage db sync
+          # openstack-service restart nova

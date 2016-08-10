@@ -32,6 +32,9 @@
   - name: set the right permissions to the keystonerc_admin file
     file: path=/home/stack/keystonerc_admin owner=stack group=stack
 
+  - name: add keystonerc to bashrc of root
+    lineinfile: dest=/root/.bashrc insertafter=EOF line=". keystonerc_admin" state=present
+
   - name: adds keystonerc to the bashrc of stack user
     lineinfile: dest=/home/stack/.bashrc insertafter=EOF line=". keystonerc_admin" state=present
 
