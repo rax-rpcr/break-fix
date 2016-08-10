@@ -55,8 +55,10 @@
       create: yes
       insertbefore: BOF
       block: | 
-        The nova database has been dropped from MySQL. Create the database & user, re-sync the data, and restart nova: 
+        The nova & nova_api databases have been dropped from MySQL. Create the database & user, re-sync the data, and restart nova: 
           mysql> create database nova; 
+          mysql> create database nova_api; 
           mysql> grant all privileges on nova.* to 'nova'@'HOST' identified by 'password'; <-- you can find this info in /etc/nova/nova.conf
+          mysql> grant all privileges on nova_api.* to 'nova'@'HOST' identified by 'password'; <-- you can find this info in /etc/nova/nova.conf
           # nova-manage db sync
           # openstack-service restart nova
