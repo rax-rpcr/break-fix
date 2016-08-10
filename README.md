@@ -69,13 +69,15 @@ Vagrant VirtualBox is out of the box, so #youshouldnotworry
  6. The final output will inform you about where you can find info about the exercise.
  7. Capture/Document any needed information from the breakfix environment.
 
+When you are ready to try another exercise, just run the breakfix script again.  This will re-use a snapshot of the basic openstack installation created on the first run, so it will run much faster.
+
 ### Notes:
 
 During the build it could happen that the CentOS repositories become unavailable or fails the OpenStack all-in-one installation. If that's the case, the script will retry to redeploy the ansible playbook until it's succesful. If something else besides that is broken, the script will exit. In such scenario, just rerun the script until the exit is succesfull and/or run `./breakfix-cleanup` if required.
 
 ### Cleaning up after you are done with all your labs:
 
-Run "`./breakfix-cleanup`" to delete the VM.
+Run "`./breakfix-cleanup`" to delete the VM and any snapshots.
 
 ### Want to participate? Adding a new breakfix exercise:
 
