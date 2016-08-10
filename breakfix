@@ -34,17 +34,20 @@ clean_before_start ()
   [ -e playbook.retry ] && rm playbook.retry
 }
 
-
 choose_random_break_task_file ()
 {
-  ARR_INDEX=0
-  for AVAILABLE_BREAK in $(ls ${BREAKDIR}/*yml)
-  do  
-    BREAKFIXES[${ARR_INDEX}]=${AVAILABLE_BREAK}
-    : $((ARR_INDEX++))
-  done
-  FILE_TO_CHOOSE=$((${RANDOM}%${ARR_INDEX}))
-  BREAKTASKFILE=${BREAKFIXES[${FILE_TO_CHOOSE}]}
+  # get list of all breaks, and then filter out those which have already been done
+  NOT_DONE_BREAKS="$(ls -1 ${BREAKDIR}/*yml | grep -v -f $COMPLETED_LABS)"
+  NUMBER_OF_NOT_DONE_BREAKS=$(echo $NOT_DONE_BREAKS | wc -w)
+
+  if [[ $NUMBER_OF_NOT_DONE_BREAKS > 0 ]] ; then
+    # randomly select one of the not-yet-done breakfix exercises
+    SELECTED_BREAK_NUM=$(( ($RANDOM % $NUMBER_OF_NOT_DONE_BREAKS) + 1 ))
+    BREAKTASKFILE=$(echo $NOT_DONE_BREAKS | cut -d ' ' -f $SELECTED_BREAK_NUM)
+  else 
+    # all breakfix exercises have been completed!  Return blank to indicate this.
+    BREAKTASKFILE=''
+  fi
 }
 
 update_completed_labs ()
@@ -98,29 +101,20 @@ rollback_vm ()
 
 setup_exercise ()
 {
-  # If no breakfix was specified, select one at random
+  # If a breakfix was specified, then use it. Else, select a random breakfix
   if [[ -e "$1" ]] ; then
     BREAKTASKFILE="$1"
   else
     # Choose random file
-    COMPLETED_BEFORE=1
-    NO_MORE_LABS=0
-    RANDOM_TRIES=0
-    until [ "${COMPLETED_BEFORE}" == "0" ] || [ "${NO_MORE_LABS}" == "1" ]
-    do
-      choose_random_break_task_file
-      if [ -e ${COMPLETED_LABS} ]
-      then
-        ! grep ${BREAKTASKFILE} ${COMPLETED_LABS} > /dev/null && \
-        COMPLETED_BEFORE=0
-      else
-        COMPLETED_BEFORE=0
-      fi
-      : $((RANDOM_TRIES++))
-      [ "${RANDOM_TRIES}" -gt "${ARR_INDEX}" ] && echo "You have completed all the exercises. Delete or edit ${COMPLETED_LABS} to try again" && NO_MORE_LABS=1 && return 0
-    done
+    choose_random_break_task_file
+    if [ "$BREAKTASKFILE" == "" ] ; then
+      echo -e "\nYou have completed all of the breakfix exercises. Delete or edit ${COMPLETED_LABS} to try again\n"
+      return 1
+    fi
   fi
-  echo Lab selected: ${BREAKTASKFILE}
+
+  echo "Lab selected: ${BREAKTASKFILE}"
+
   ansible-playbook -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory ${BREAKTASKFILE}
   status=${?}
   [ "${status}" == "0" ] && throw_informative_message
