@@ -1,14 +1,6 @@
-# Hints:
-#  Are the neutron components running?
-#  Try to restart the services and notice
-#  if there's some permission that's missing.
-#  Could it be a security feature?
-# 
-#
-#
-#
-#
-# (the first 10 lines are the hint, so pad with empty lines)
+# Author: Jose Kaz
+# Tags: Network Keystone
+# Level: 2
 
 - hosts: all
   become: true

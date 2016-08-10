@@ -1,15 +1,6 @@
-# Hints:
-#  Can you ping/SSH to the new instance?
-#  Does our OpenStack host VM have proper connectivity? 
-#  Where can we configure network access to/from instances?
-#  What security group does this VM belong to? 
-#  What rules are present for this security group?
-# 
-#
-#
-#
-#
-# (the first 10 lines are the hint, so pad with empty lines)
+# Author: Allie Barnes
+# Tags: Network Nova 
+# Level: 1
 
 - hosts: all
   become: true

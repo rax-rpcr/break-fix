@@ -1,16 +1,6 @@
-# Hints:
-#  What is involved with networking in Openstack ?
-#  Does our OpenStack host VM have property connectivity?
-#  Are all the hops reachable trouhg the environment ?
-#  Where can we configure network access to/from instances?
-#  What security group does this VM belong to?
-#
-#
-#
-#
-#
-#
-# (the first 10 lines are the hint, so pad with empty lines)
+# Author: Charlie Martinez
+# Tags: Network Nova 
+# Level: 1
 
 - hosts: all
   become: true
