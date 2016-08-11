@@ -1,0 +1,112 @@
+# Author: Allie Barnes
+# Tags: Nova/Libvirt
+# Level: 3
+
+- hosts: all
+  become: true
+  tasks: 
+  - name: exercise setup step 1
+    yum: name=python-pip state=present
+
+  - name: exercise setup step 2
+    pip: name=shade  
+
+  - name: exercise setup step 3
+    shell: "openstack --os-auth-url=$(grep OS_AUTH_URL /root/keystonerc_admin | awk -F'=' '{print $2}') --os-username=$(grep OS_USERNAME /root/keystonerc_admin | awk -F'=' '{print $2}') --os-password=$(grep OS_PASSWORD /root/keystonerc_admin | awk -F'=' '{print $2}') --os-project-name=admin  user set --password rackspace admin"
+    ignore_errors: yes
+
+  - name: exercise setup step 4
+    lineinfile: dest=/root/keystonerc_admin regexp='^export OS_PASSWORD=.*' line='export OS_PASSWORD=rackspace'
+
+  - name: exercise setup step 5
+    lineinfile: dest=/etc/neutron/neutron.conf regexp='^#rpc_response_timeout.*' line='rpc_response_timeout=360'
+
+  - name: exercise setup step 6
+    shell: "openstack-service restart neutron"
+
+  - name: exercise setup step 7 
+    lineinfile: dest=/etc/nova/nova.conf regexp='^#rpc_response_timeout.*' line='rpc_response_timeout=360'
+
+  - name: exercise setup step 8
+    shell: "openstack-service restart nova"
+
+  - name: exercise setup step 9
+    os_server: 
+      state: present
+      auth:
+        auth_url: http://10.0.2.15:5000/v2.0/
+        username: admin
+        password: rackspace
+        project_name: admin
+      name: vm1 
+      image: cirros
+      flavor: 1
+      nics:
+        - net-name: private
+      auto_ip: yes
+      security_groups: default
+
+  - name: exercise setup step 10
+    shell: "source /root/keystonerc_admin && nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0"
+
+  - name: exercise setup step 11
+    shell: "source /root/keystonerc_admin && nova secgroup-add-rule default tcp 22 22 0.0.0.0/0"
+
+  - name: exercise setup step 12
+    shell: "virsh undefine $(virsh list | grep running | awk '{print $1}')"
+
+  - name: exercise setup step 13
+    shell: "virsh destroy $(virsh list | grep running | awk '{print $1}')"
+
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        A user has spun up a new VM (vm1) and cannot connect to it. Troubleshoot to ensure we can ping/SSH to the instance. 
+        Hints can be found in the /root/hint.txt files
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What happens when you try to ping/SSH to the VM? 
+        Does the host VM have proper connectivity?
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What factors (BESIDES NEUTRON) might affect this connectivity?
+        What lies underneath nova? 
+
+  - name: add hints file to /root/hint3.txt
+    blockinfile: 
+      dest: /root/hint3.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What results do you see from 'virsh list'?
+        How can you restore a VM with virsh?  
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        The VM has been undefined/destroyed via virsh. Here are the steps to restore: 
+        # VM_UUID=$(nova list | grep vm | awk '{print $2}')
+        # virsh define /var/lib/nova/instances/$VM_UUID/libvirt.xml
+        # virsh start instance-00000001
+
+        This may shutdown the instance, restart it w nova if needed: 
+        # nova start vm1 
+
+        To verify you've solved this breakfix, you should be able to SSH into the vm1 instance.
