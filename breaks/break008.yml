@@ -1,0 +1,85 @@
+# Author: Jose Kaz
+# Tags:  glance
+# Level: 2
+
+- hosts: all 
+  become: true
+  tasks: 
+
+  - name: Setting up the exercise (step 1 of 5)
+    lineinfile:
+      state: present
+      dest: /etc/glance/glance-api.conf
+      regexp: "^stores = file.*$"
+      line: "stores = rbd,file,http,swift"
+ 
+  - name: Setting up the exercise (step 2 of 5)
+    lineinfile:
+      state: absent
+      dest: /etc/glance/glance-api.conf
+      regexp: "^#stores = file.*$"
+
+  - name: Setting up the exercise (step 3 of 5)
+    lineinfile:
+      state: present
+      dest: /etc/glance/glance-api.conf
+      regexp: "^default_store.*$"
+      line: "default_store = rbd"
+
+  - name: Setting up the exercise (step 4 of 5)
+    lineinfile:
+      state: absent
+      dest: /etc/glance/glance-api.conf
+      regexp: "^#default_store.*$"
+
+  - name: Setting up the exercise (step 5 of 5)
+    service: state=restarted name=openstack-glance-api
+
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes 
+      insertbefore: BOF 
+      block: | 
+        Users are trying to upload images at glance, but they constantly
+        receive a 500 error while trying to do it. However, they are 
+        able to see them on glance image-list, but not able to use them.
+        Problem is solved when the new images look normal at glance
+        and you stop seeing error 500.
+        Hints can be found in the /root/hint*.txt files
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes 
+      insertbefore: BOF 
+      block: |
+        Consider taking a look into the logs while trying
+        to upload a new image.
+        Are the glance services active?
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes 
+      insertbefore: BOF 
+      block: |
+        How does glance store the images?
+        Is there something strange at the logs?
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes 
+      insertbefore: BOF 
+      block: | 
+        The source of the problem is the wrong backend configured at glance.
+        You can see that this is the problem by taking a look into the attributes
+        of the object at /var/log/glance/api.log
+        To correct this, perform the following steps:
+        1. Open for edition the file /etc/glance/glance-api.log
+        2. Look for the line default_store and change it to "file"
+        3. Restart the glance api service.
+        Keep in mind that the default_store is what glance will look FIRST in case
+        there are more stores configured.
