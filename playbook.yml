@@ -49,7 +49,7 @@
     lineinfile: dest=/home/stack/.bashrc insertafter=EOF line=". keystonerc_admin" state=present
 
   - name: Allow Password Authentication through ssh 
-    lineinfile: dest=/etc/ssh/sshd_config regexp="PasswordAuthentication.*" state=present line="PasswordAuthentication yes"
+    lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication.*" state=present line="PasswordAuthentication yes"
 
   - name: Restart SSH daemon
     service: name=sshd state=restarted
