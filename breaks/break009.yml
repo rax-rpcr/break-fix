@@ -142,4 +142,8 @@
         3. Open /etc/swift/proxy-server.conf for edition.
 
         4. Modify the filter:authtoken section so it has the right keystone IP and the right
-           authentication credentials.
+           authentication credentials. These are the flags that should be fixed:
+              - auth_uri
+              - identity_uri
+              - admin_user
+              - admin_password
