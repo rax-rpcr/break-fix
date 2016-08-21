@@ -1,0 +1,57 @@
+# Author: Allie Barnes
+# Tags: Nova Libvirt
+# Level: 1
+
+- hosts: all
+  become: yes
+  tasks: 
+
+  - name: Setting up the exercise (step 1 of 1)
+    shell: "killall libvirtd"
+
+  - name: Setting up the exercise (step 2)
+    shell: "source /root/keystonerc_admin && nova boot --flavor m1.tiny --image cirros --nic net-name=private --security-group default brokenvm"
+
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        Users have attempted to launch a VM, and reported its now in an ERROR state.
+        Problem is solved when you can launch instances in an ACTIVE state.
+        Hints can be found in the /root/hint*.txt files
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Try running 'nova show' on the VM to gather more information about the failure.
+
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Try looking for any relevant errors in the nova logs.
+
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        This source of the problem is libvirtd was dead! You can see this by looking at the
+        messages in /var/log/nova/nova-compute.log regarding connecting to libvirtd. The status
+        of the libvirtd service should show up as 'dead' as well.
+        To correct this, perform the following steps:
+        1. systemctl restart libvirtd
+        Then make sure you can launch/access instances:
+        $ nova boot --flavor m1.tiny --image cirros --nic net-name=private --security-group default fixedvm
+        Remember, the goal is not just to fix the problem, but to 
+        understand it and learn how to identify and fix it
+        in the future.
