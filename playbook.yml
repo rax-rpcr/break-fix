@@ -21,12 +21,6 @@
   - name: Change the default editor to the friendly vim 
     lineinfile: dest=/etc/profile.d/editor.sh create=yes state=present line="export EDITOR=vim"
 
-  - name: Allow Password Authentication through ssh 
-    lineinfile: dest=/etc/ssh/sshd_config regexp="PasswordAuthentication.*" state=present line="PasswordAuthentication yes"
-
-  - name: Restart SSH daemon
-    service: name=sshd state=restarted
-
   - name: Add Mitaka repository
     yum: name=centos-release-openstack-mitaka state=latest
 
@@ -53,4 +47,9 @@
 
   - name: adds keystonerc to the bashrc of stack user
     lineinfile: dest=/home/stack/.bashrc insertafter=EOF line=". keystonerc_admin" state=present
-    
+
+  - name: Allow Password Authentication through ssh 
+    lineinfile: dest=/etc/ssh/sshd_config regexp="PasswordAuthentication.*" state=present line="PasswordAuthentication yes"
+
+  - name: Restart SSH daemon
+    service: name=sshd state=restarted
