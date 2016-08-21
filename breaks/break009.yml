@@ -1,0 +1,145 @@
+# Author: Jose Kaz
+# Tags: Swift
+# Level: 3
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Setting up the exercise (step 1 of 9)
+    lineinfile:
+      regexp: ^auth_uri.*
+      state: present
+      line: auth_uri = http://myhost:5000/v2.0
+      dest: /etc/swift/proxy-server.conf
+
+  - name: Setting up the exercise (step 2 of 9)
+    lineinfile:
+      regexp: ^#auth_uri.*
+      state: absent
+      dest: /etc/swift/proxy-server.conf
+
+  - name: Setting up the exercise (step 3 of 9)
+    lineinfile:
+      regexp: ^identity_uri.*
+      state: present
+      line: identity_uri = http://myhost:35357
+      dest: /etc/swift/proxy-server.conf
+
+  - name: Setting up the exercise (step 4 of 9)
+    lineinfile:
+      regexp: ^#identity_uri.*
+      state: absent
+      dest: /etc/swift/proxy-server.conf
+
+  - name: Setting up the exercise (step 5 of 9)
+    lineinfile:
+      regexp: ^admin_user.*
+      state: present
+      line: admin_user = happyuser
+      dest: /etc/swift/proxy-server.conf
+
+  - name: Setting up the exercise (step 6 of 9)
+    lineinfile:
+      regexp: ^#admin_user.*
+      state: absent
+      dest: /etc/swift/proxy-server.conf
+
+  - name: Setting up the exercise (step 7 of 9)
+    lineinfile:
+      regexp: ^admin_password.*
+      state: present
+      line: admin_password = happypassword
+      dest: /etc/swift/proxy-server.conf
+
+  - name: Setting up the exercise (step 8 of 9)
+    lineinfile:
+      regexp: ^#admin_password.*
+      state: absent
+      dest: /etc/swift/proxy-server.conf
+
+  - name: Setting up the exercise (step 9 of 9)
+    service: name=openstack-swift-proxy.service state=restarted
+
+  - name: add task file to /root/breakfix.txt
+    blockinfile:
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        A user is trying to create a container on swift, but he receives an error
+        indicating that the service is unavailable.
+        This problem is solved when you are able to create containers in swift
+        and upload files in it.
+        Hints can be found in the /root/hint*.txt files
+        The solution can be found in /root/solution.txt
+
+  - name: add hints file to /root/hint1.txt
+    blockinfile:
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What's the status of the swift components?
+        Are they bound to the right ports?
+        Consider this is a default installation, so
+        check if the default ports have been chosen.
+        Do you notice something strange at /var/log/swift?
+
+  - name: add hints file to /root/hint2.txt
+    blockinfile:
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        This installation has been installed using packstack.
+        There's an answer file with the right information that
+        should exists inside of the swift configuration files.
+        Consider checking if the IPs that appear on the
+        error messages, are configured on the right component
+        of swift that might be reported unavailable.
+
+  - name: add answer file to /root/solution.txt
+    blockinfile:
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        The source of the problem is the swift-proxy server.
+        You can see that this is the problem by running swift list
+        or swift post test to create a container.
+        The swift client will report that the swift-proxy-server
+        is unavailable by showing that the IP on port 8080 (default
+        port for swift proxy server) is unreachable.
+        If you run openstack-service status swift, you will notice that
+        all the components are available and reporting OK, so it should
+        be something else regarding swift-proxy server.
+        The file /etc/swift/proxy-server.conf looks ok on the DEFAULT section
+        regarding the IP and Ports.
+        So it might happen that the swift proxy server is unable to authenticate.
+        The command openstack-service status keystone will show that keystone is ok,
+        and if you check other components, those componentes won't have a problem
+        trying to reach keystone.
+        So, it might be the configuration on /etc/swift/proxy-server.conf that should
+        be wrong regarding authentication.
+        The authentication section on swift is covered by the filter:authtoken section.
+
+        To correct this, perform the following steps:
+        1. Obtain the right user for swift. The user that swift uses is the user with
+           the SwiftOperator role OR admin by default, so query keystone to know which is
+           the right user:
+            $ for i in $(openstack user list -f csv | grep -v ID | awk -F, '{print $1}' | sed 's/"//g')
+              do openstack user role list ${i} --project services
+              done
+            As this is a default installation, the user is swift, but just try to keep
+            in mind that it might happen that certain customers would require different usernames.
+
+        2. Obtain the right password for swift, run the following command on a shell:
+            $ grep SWIFT packstack-answers*.txt
+           The packstack answers file is where the installation saves the credentials when
+           installing using packstack.
+
+        3. Open /etc/swift/proxy-server.conf for edition.
+
+        4. Modify the filter:authtoken section so it has the right keystone IP and the right
+           authentication credentials.
