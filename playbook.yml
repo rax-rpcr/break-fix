@@ -8,9 +8,6 @@
   - name: Change root pw (root|rpcr)
     user: name=root password=$6$rounds=656000$0tqH37pBAxrlG9H0$KLGmcdSUAkXbvbUq0VF.10FEnII6QEa9HTA6pdzlGg46voT5Wyl6u6eLckwyLuaDdf8ihW1r5aJYHVcLzmkiz.
 
-  - name: Apply all system updates
-    yum: name=* state=latest
-
   - name: Add some useful extra packages
     yum: name={{ item }} state=present
     with_items:
