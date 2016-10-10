@@ -1,0 +1,73 @@
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Add Stack User (stack|stack)
+    user: name=stack comment="Stack User" groups=wheel password=$6$rounds=656000$GxOkQlwGoe.LBYrK$tIFHEOC/mUNwvTxdqLJNNxSUOQmyaxILNswSh2itglm3104zfjJPs07JASsexLCng4T5ZrWPob4hQK8tlQuJx. state=present
+
+  - name: Change root pw (root|rpcr)
+    user: name=root password=$6$rounds=656000$0tqH37pBAxrlG9H0$KLGmcdSUAkXbvbUq0VF.10FEnII6QEa9HTA6pdzlGg46voT5Wyl6u6eLckwyLuaDdf8ihW1r5aJYHVcLzmkiz.
+
+  - name: Installing EPEL
+    command: rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+  - name: Add some useful extra packages
+    yum: name={{ item }} state=present
+    with_items:
+      - vim
+      - vim-X11
+  # vim-X11 is added for gvimdiff
+
+  - name: Stop Network manager
+    service:
+      name: NetworkManager
+      state: stopped
+      enabled: no
+
+  - name: Stop firewalld
+    service:
+      name: firewalld
+      state: stopped
+      enabled: no
+
+  - name: Change the default editor to the friendly vim
+    lineinfile: dest=/etc/profile.d/editor.sh create=yes state=present line="export EDITOR=vim"
+
+  - name: Add Newton repository
+    #yum: name=centos-release-openstack-newton state=latest
+    #yum: name=centos-release-openstack-liberty state=latest
+    yum: name=centos-release-openstack-kilo state=latest
+
+
+  - name: Apply all system updates
+    yum: name=* state=latest
+
+  - name: Install Packstack package
+    yum: name=openstack-packstack state=present
+
+  - name: running packstack --allinone
+    command: packstack --allinone
+
+  - name: disable default httpd vhost
+    command: mv /etc/httpd/conf.d/15-default.conf /etc/httpd/conf.d/15-default.conf.bak
+
+  - name: restart apache
+    service: name=httpd state=reloaded
+
+  - name: add keystonerc to stack user
+    command: cp /root/keystonerc_admin /home/stack/keystonerc_admin
+
+  - name: set the right permissions to the keystonerc_admin file
+    file: path=/home/stack/keystonerc_admin owner=stack group=stack
+
+  - name: add keystonerc to bashrc of root
+    lineinfile: dest=/root/.bashrc insertafter=EOF line=". keystonerc_admin" state=present
+
+  - name: adds keystonerc to the bashrc of stack user
+    lineinfile: dest=/home/stack/.bashrc insertafter=EOF line=". keystonerc_admin" state=present
+
+  - name: Allow Password Authentication through ssh
+    lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication.*" state=present line="PasswordAuthentication yes"
+
+  - name: Restart SSH daemon
+    service: name=sshd state=restarted
