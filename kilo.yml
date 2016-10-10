@@ -39,10 +39,6 @@
     #yum: name=centos-release-openstack-liberty state=latest
     yum: name=centos-release-openstack-kilo state=latest
 
-
-  - name: Apply all system updates
-    yum: name=* state=latest
-
   - name: Install Packstack package
     yum: name=openstack-packstack state=present
 
