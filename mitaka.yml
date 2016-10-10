@@ -42,6 +42,7 @@
     #yum: name=centos-release-openstack-newton state=latest
     yum: name=centos-release-openstack-mitaka state=latest
     #yum: name=centos-release-openstack-liberty state=latest
+    #yum: name=centos-release-openstack-kilo state=latest
 
   - name: Apply all system updates
     yum: name=* state=latest
