@@ -1,0 +1,43 @@
+# Author: Charlie Martinez
+# Tags: Rabbit
+# Level: 1
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: Setting up the exercise (step 1 of 1)
+    command: systemctl stop rabbitmq-server
+
+  - name: add task file to /root/breakfix.txt
+    blockinfile: 
+      dest: /root/breakfix.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+        Users report that they are unable to use openstack at all.
+        None of the commands are responding properly.
+        Hints can be found in the /root/hint{1,2}.txt files.
+        The solution can be found in /root/solution.txt
+  - name: add hints file to /root/hint1.txt 
+    blockinfile: 
+      dest: /root/hint1.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        Try to run any command
+  - name: add hints file to /root/hint2.txt 
+    blockinfile: 
+      dest: /root/hint2.txt
+      create: yes
+      insertbefore: BOF
+      block: |
+        What is the service openstack uses to cummunicate ? 
+        Are those services healthy?
+  - name: add answer file to /root/solution.txt
+    blockinfile: 
+      dest: /root/solution.txt
+      create: yes
+      insertbefore: BOF
+      block: | 
+       rabbitmq-server is stopped. Restarting httpd.service will fix this issue. 
